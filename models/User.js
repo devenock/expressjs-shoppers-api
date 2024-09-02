@@ -19,10 +19,12 @@ const userSchema = new Schema({
     password:{
         type:String,
         required:true,
-        unique: true
+        unique: true,
+        min:8
     },
     role:{
         type:String,
+        enum:['user','admin'],
         required:true,
         default:"user"
     },
