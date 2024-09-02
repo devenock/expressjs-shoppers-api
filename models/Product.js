@@ -8,7 +8,9 @@ const productSchema = new Schema({
     },
     name:{
         type:String,
-        required:true
+        required:[true, 'Product name is required'],
+        trim: true,
+        maxLength:[100, "Product name can not exceed 100"],
     },
     description:{
         type:String,
@@ -24,12 +26,15 @@ const productSchema = new Schema({
     },
     category:{
         type:String,
-        required:true
+        required:true,
+        ref: 'Category'
     },
-    images:{
-        type:Array,
-        required:true
-    }
+    images:[
+        {
+            type:String,
+            required:true
+        }
+    ]
 }, {timestamps:true});
 
 const Product = model("Product",productSchema);
