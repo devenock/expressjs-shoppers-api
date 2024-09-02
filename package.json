@@ -1,18 +1,26 @@
 {
   "name": "express-shopper",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Backend API powering the shopper platform.",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon app.js",
+    "start": "node app.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["shopper", "backend", "api"],
+  "author": "devenock",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "mongoose": "^8.6.0",
     "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.9.1",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.4",
+    "supertest": "^7.0.0"
   }
 }
