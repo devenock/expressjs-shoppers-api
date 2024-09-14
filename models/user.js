@@ -1,15 +1,16 @@
 const mongoose = require('mongoose');
 const { Schema, model } = mongoose;
+const { v4: uuidv4 } = require('uuid');
 
 const userSchema = new Schema({
     userId:{
-        type: Schema.Types.ObjectId,
+        type: String,
+        default: uuidv4,
         unique: true,
     },
     name:{
         type:String,
         required:true,
-        unique: true
     },
     email:{
         type:String,
@@ -19,8 +20,7 @@ const userSchema = new Schema({
     password:{
         type:String,
         required:true,
-        unique: true,
-        min:8
+        minLength:8
     },
     role:{
         type:String,

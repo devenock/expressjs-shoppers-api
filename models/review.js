@@ -1,19 +1,21 @@
 const mongoose = require('mongoose');
+const User = require("./user");
+const Product = require("./product");
 const { Schema, model } = mongoose;
 
 const reviewSchema = new Schema({
-    reviewId:{
+   id:{
         type: Schema.Types.ObjectId,
         required: true,
     },
     userId:{
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: User,
         required:true,
     },
     productId:{
         type: Schema.Types.ObjectId,
-        ref: 'Product',
+        ref: Product,
         required:true,
     },
     comment:{

@@ -4,11 +4,11 @@ const User = require('../models/user');
 //create a user
 exports.createUser = async (req, res) => {
     try{
-    const newUser = await User.create(req.body)
+    const user = await User.create(req.body)
         res.status(201).json({
             status: 'success',
             data:{
-                newUser,
+                user,
             }
         })
     }catch(error){
@@ -72,6 +72,11 @@ const user = await User.findById(req.params.id)
 exports.deleteUser = async (req, res) => {
     try{
         await User.findByIdAndDelete(req.params.id)
+        if(!user){
+            res.status(400).json({
+                message:`User with id ${req.params.id} not found!`,
+            })
+        }
         res.status(200).json({
             status: 'success',
             data: null,

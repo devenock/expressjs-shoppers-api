@@ -21,10 +21,6 @@ app.use(express.json());
 
 
 // define routes here
-app.use("/", (req, res) => {
-    res.status(200).send("Welcome to our shopper api!");
-})
-
 app.use("/api/v1/users", userRouter)
 
 
