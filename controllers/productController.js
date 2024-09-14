@@ -49,7 +49,7 @@ exports.getProduct = async (req, res) => {
 //update a product
 exports.updateProduct = async (req, res) => {
     try{
-        const product = Product.findById(req.params.id)
+        const product = await Product.findById(req.params.id)
         const {name, description, price, category} = req.body
         if(!product){
             res.status(400).json({
