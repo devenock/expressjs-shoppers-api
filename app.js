@@ -6,7 +6,6 @@ const app = express();
 
 // import your route handlers here
 const userRouter = require("./routes/userRoutes");
-
 require("dotenv").config();
 
 // database connection
@@ -20,7 +19,12 @@ app.use(cors());
 app.use(express.json());
 
 
+
 // define routes here
+app.use("/", (req, res) => {
+    res.status(200).send("Welcome to our shopper api!");
+})
+
 app.use("/api/v1/users", userRouter)
 
 
