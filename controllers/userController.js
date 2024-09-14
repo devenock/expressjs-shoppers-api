@@ -72,11 +72,6 @@ const user = await User.findById(req.params.id)
 exports.deleteUser = async (req, res) => {
     try{
         await User.findByIdAndDelete(req.params.id)
-        if(!user){
-            res.status(400).json({
-                message:`User with id ${req.params.id} not found!`,
-            })
-        }
         res.status(200).json({
             status: 'success',
             data: null,
