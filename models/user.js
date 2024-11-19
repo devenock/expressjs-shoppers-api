@@ -15,18 +15,18 @@ const userSchema = new Schema({
     email:{
         type:String,
         required:true,
-        unique: true
+        unique: true,
     },
     password:{
         type:String,
         required:true,
-        minLength:8
+        minLength:8,
     },
     role:{
         type:String,
         enum:['user','admin'],
         required:true,
-        default:"user"
+        default:"user",
     },
     address:{
         type:String,
