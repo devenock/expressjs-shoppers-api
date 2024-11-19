@@ -8,7 +8,7 @@ const userSchema = new Schema({
         default: uuidv4,
         unique: true,
     },
-    username:{
+    name:{
         type:String,
         required:true,
     },
@@ -25,10 +25,12 @@ const userSchema = new Schema({
     role:{
         type:String,
         enum:['user','admin'],
+        required:true,
         default:"user",
     },
     address:{
         type:String,
+        required:true,
     }
 },{timestamps: true})
 
