@@ -1,20 +1,48 @@
 const User = require('../models/user');
+const bcrypt = require('bcryptjs')
 
 //register
 exports.register = async (req, res) => {
     try{
-        console.log(req.body);
+        // check if user is already registered
+        const UserExist = await User.findOne({email: req.body.email});
+        if(UserExist){
+            return res.status(400).json({error:'User with this email already exist!'})
+        }
+
+        // hash the password
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const newUser = new User({
+            username: req.body.username,
+            email: req.body.email,
+            password: hashedPassword
+        })
+        await newUser.save();
+        res.status(201).json({message:'User registered successfully!'})
     }catch(err){
-        console.log(err);
+        res.status(500).json({error: err})
     }
 }
 
 // login
 exports.login = async (req, res) => {
     try{
-        console.log(req.body);
+        // check if user(email) exist
+        const user = await User.findOne({email:req.body.email})
+        if(!user){
+            return res.status(401).json({error: 'User with this email does not exist!'});
+        }
+    //     compare password
+        const passwordMatch = await bcrypt.compare(req.body.password, user.password);
+        if(!passwordMatch){
+            return res.status(401).json({error:'Password does not match'})
+        }
+
+    //     generate token
+        const token = jwt.sign({email: user.email}, process.env.JWT_SECRETE);
+        res.status(200).json({token})
     }catch(err){
-        console.log(err);
+        res.status(500).json({ error: err });
     }
 }
 
