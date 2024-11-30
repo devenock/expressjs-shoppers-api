@@ -8,7 +8,7 @@ const userSchema = new Schema({
         default: uuidv4,
         unique: true,
     },
-    name:{
+    username:{
         type:String,
         required:true,
     },
