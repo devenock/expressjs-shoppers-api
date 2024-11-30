@@ -14,6 +14,7 @@ const productRouter = require("./routes/productRoutes");
 const reviewRouter = require("./routes/reviewRoutes");
 const orderRouter = require("./routes/orderRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
+const authRouter = require('./routes/authRoutes');
 
 require("dotenv").config();
 
@@ -33,6 +34,7 @@ app.use("/api/v1/products", productRouter)
 app.use("/api/v1/reviews", reviewRouter)
 app.use("/api/v1/orders", orderRouter)
 app.use("/api/v1/categories", categoryRouter)
+app.use("/api/v1/auth", authRouter);
 
 // swagger documentation route
 app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
