@@ -1,6 +1,8 @@
 const User = require('../models/user');
+const Token = require('../models/token');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
+const sendEmail = require('../utils/email/sendEmail')
 
 //register
 exports.register = async (req, res) => {
@@ -49,10 +51,30 @@ exports.login = async (req, res) => {
     }
 }
 
-// forgot password
+// forgot password(request password reset)
 exports.forgotPassword = async (req, res) => {
     try{
-        console.log(req.body);
+        const {email} = req.body;
+        const user = await User.findOne({email})
+        if(!user){
+            return res.status(401).json({error: 'User does not exist!'})
+        }
+        let token = await Token.findOne({ userId: user._id });
+        if (token) await token.deleteOne();
+        let resetToken = crypto.randomBytes(32).toString("hex");
+        const hash = await bcrypt.hash(resetToken, 10);
+        await new Token({
+            userId: user._id,
+            token: hash,
+            createdAt: Date.now(),
+        }).save();
+
+        const link = `${process.env.CLIENT_URL}/passwordReset?token=${resetToken}&id=${user._id}`;
+        await sendEmail(user.email, "Password Reset Request", {
+            name: user.name,
+            link: link,
+        }, "./template/requestResetPassword.handlebars");
+        return link;
     }catch(err){
         console.log(err);
     }
@@ -60,12 +82,33 @@ exports.forgotPassword = async (req, res) => {
 
 //reset password
 exports.resetPassword = async (req, res) => {
-    try{
-        console.log(req.body);
-    }catch(err){
-        console.log(err);
+    const{userId, token, password} = req.body;
+    let passwordResetToken = await Token.findOne({ userId });
+    if (!passwordResetToken) {
+        return res.status(401).json({error:'Invalid or expired password reset token'})
     }
-}
+    const isValid = await bcrypt.compare(token, passwordResetToken.token);
+    if (!isValid) {
+        return res.status(401).json({error:'Invalid or expired password reset token'})
+    }
+    const hash = await bcrypt.hash(password, 10);
+    await User.updateOne(
+        { _id: userId },
+        { $set: { password: hash } },
+        { new: true }
+    );
+    const user = await User.findById({ _id: userId });
+    await sendEmail(
+        user.email,
+        "Password Reset Successfully",
+        {
+            name: user.name,
+        },
+        "./template/resetPassword.handlebars"
+    );
+    await passwordResetToken.deleteOne();
+    return true;
+};
 
 // verify by sending OTP
 exports.verifyOTP = async (req, res) => {
