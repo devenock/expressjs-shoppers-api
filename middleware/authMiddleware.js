@@ -1,7 +1,7 @@
 // verify token middleware
 const jwt = require('jsonwebtoken')
 
-export const verifyToken = (req, res, next) =>{
+const verifyToken = (req, res, next) =>{
     // get the token from the request headers
     const token = req.header['authorization']
 //     check if token is valid
@@ -17,3 +17,5 @@ export const verifyToken = (req, res, next) =>{
         next();
     });
 };
+
+module.exports = verifyToken;

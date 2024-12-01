@@ -15,6 +15,7 @@ const reviewRouter = require("./routes/reviewRoutes");
 const orderRouter = require("./routes/orderRoutes");
 const categoryRouter = require("./routes/categoryRoutes");
 const authRouter = require('./routes/authRoutes');
+const verifyToken = require('./middleware/authMiddleware')
 
 require("dotenv").config();
 
@@ -29,7 +30,7 @@ app.use(cors());
 app.use(express.json());
 
 // define routes here
-app.use("/api/v1/users", userRouter)
+app.use("/api/v1/users", verifyToken, userRouter)
 app.use("/api/v1/products", productRouter)
 app.use("/api/v1/reviews", reviewRouter)
 app.use("/api/v1/orders", orderRouter)
