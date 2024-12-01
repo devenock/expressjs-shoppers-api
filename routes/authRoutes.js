@@ -6,5 +6,8 @@ const router = express.Router();
 router.route('/register').post(register);
 //login route
 router.route('/login').post(login);
+// forgot password
+// reset password
+// resend OTP
 
 module.exports = router;
