@@ -120,21 +120,3 @@ exports.resetPassword = async (req, res) => {
         console.error(err);
     }
 };
-
-// verify by sending OTP
-exports.verifyOTP = async (req, res) => {
-    try{
-        console.log(req.body);
-    }catch(err){
-        console.log(err);
-    }
-}
-
-//resend otp
-exports.resendOtp = async (req, res) => {
-    try{
-        console.log(req.body);
-    }catch(err){
-        console.log(err);
-    }
-}
