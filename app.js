@@ -40,6 +40,9 @@ app.use("/api/v1/auth", authRouter);
 // swagger route
 app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
+// swagger route
+app.use("/api/v1/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
 
 
 module.exports = app;
