@@ -2,6 +2,7 @@ const User = require('../models/user');
 const Token = require('../models/token');
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
+const crypto = require("crypto");
 const sendEmail = require('../utils/email/sendEmail')
 
 //register
@@ -12,7 +13,6 @@ exports.register = async (req, res) => {
         if(UserExist){
             return res.status(400).json({error:'User with this email already exist!'})
         }
-
         // hash the password
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -57,8 +57,10 @@ exports.forgotPassword = async (req, res) => {
         const {email} = req.body;
         const user = await User.findOne({email})
         if(!user){
-            return res.status(401).json({error: 'User does not exist!'})
+            return res.status(401).json({error: `User with ${email} does not exist!`})
         }
+
+        // remove existing token if any
         let token = await Token.findOne({ userId: user._id });
         if (token) await token.deleteOne();
         let resetToken = crypto.randomBytes(32).toString("hex");
@@ -70,44 +72,53 @@ exports.forgotPassword = async (req, res) => {
         }).save();
 
         const link = `${process.env.CLIENT_URL}/passwordReset?token=${resetToken}&id=${user._id}`;
-        await sendEmail(user.email, "Password Reset Request", {
-            name: user.name,
-            link: link,
+        const emailSent = await sendEmail(user.email, "Password Reset Request", {
+            name: user.username,
+            link,
         }, "./template/requestResetPassword.handlebars");
-        return link;
+        if (!emailSent) {
+            return res.status(500).json({ error: "Failed to send reset email" });
+        }
+        console.log(user.email);
+        res.status(200).json({ message: "Password reset email sent successfully", link }); // Link for dev testing
     }catch(err){
-        console.log(err);
+        console.error(err);
+        res.status(500).json({ error: "Internal server error" });
     }
 }
 
 //reset password
 exports.resetPassword = async (req, res) => {
-    const{userId, token, password} = req.body;
-    let passwordResetToken = await Token.findOne({ userId });
-    if (!passwordResetToken) {
-        return res.status(401).json({error:'Invalid or expired password reset token'})
+    try {
+        const{userId, token, password} = req.body;
+        let passwordResetToken = await Token.findOne({ userId });
+        if (!passwordResetToken) {
+            return res.status(401).json({error:'Invalid or expired password reset token'})
+        }
+        const isValid = await bcrypt.compare(token, passwordResetToken.token);
+        if (!isValid) {
+            return res.status(401).json({error:'Invalid or expired password reset token'})
+        }
+        const hash = await bcrypt.hash(password, 10);
+        await User.updateOne(
+            { _id: userId },
+            { $set: { password: hash } },
+            { new: true }
+        );
+        const user = await User.findById({ _id: userId });
+        await sendEmail(
+            user.email,
+            "Password Reset Successfully",
+            {
+                name: user.username,
+            },
+            "./template/resetPassword.handlebars"
+        );
+        await passwordResetToken.deleteOne();
+        return true;
+    }catch(err){
+        console.error(err);
     }
-    const isValid = await bcrypt.compare(token, passwordResetToken.token);
-    if (!isValid) {
-        return res.status(401).json({error:'Invalid or expired password reset token'})
-    }
-    const hash = await bcrypt.hash(password, 10);
-    await User.updateOne(
-        { _id: userId },
-        { $set: { password: hash } },
-        { new: true }
-    );
-    const user = await User.findById({ _id: userId });
-    await sendEmail(
-        user.email,
-        "Password Reset Successfully",
-        {
-            name: user.name,
-        },
-        "./template/resetPassword.handlebars"
-    );
-    await passwordResetToken.deleteOne();
-    return true;
 };
 
 // verify by sending OTP
