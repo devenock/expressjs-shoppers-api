@@ -1,0 +1,26 @@
+services:
+  server:
+    build:
+      context: .
+      target: dev
+    ports:
+      - "5000:5000"
+      - "9229:9229"
+    environment:
+      NODE_ENV: development
+    depends_on:
+      db:
+        condition: service_started
+    volumes:
+      - ./src:/usr/src/app/src
+
+  db:
+    image: mongo
+    healthcheck:
+      test: [ "CMD", "echo 'Using MongoDB Atlas'" ]
+      interval: 20s
+      timeout: 10s
+      retries: 10
+
+volumes:
+  db-data:

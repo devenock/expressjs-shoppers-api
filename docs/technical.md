@@ -113,3 +113,15 @@ How to integrate Relationships in MongoDB(refs).
 6. [ ] Documentation
 7. [ ] Database Design
 8. [ ] Deployment
+
+## CI/CD Tools:
+
+**Jenkins** for CI/CI. Jenkins is an automation tool/server.
+
+### MacOS Installation
+Sample commands:
+
+1. [ ] **Install the latest LTS version:** `brew install jenkins-lts`
+2. [ ] **Start the Jenkins service:** `brew services start jenkins-lts`
+3. [ ] **Restart the Jenkins service:** `brew services restart jenkins-lts`
+4. [ ] **Update the Jenkins version:** `brew upgrade jenkins-lts`
