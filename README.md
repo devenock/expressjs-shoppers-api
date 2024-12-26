@@ -270,7 +270,7 @@ To run the tests for the API:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://spdx.org/licenses/MIT.html) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/devenock/expressjs-shoppers-api/blob/main/LICENSE) file for details.
 
 ---
 
@@ -283,5 +283,3 @@ For any inquiries, please contact:
 - GitHub: [Trend20](https://github.com/Trend20)
 
 ---
-
-This README provides an overview of how to set up, run, and test the **Shopper Express API**. Feel free to contribute, report issues, or ask questions by opening an issue or submitting a pull request.
