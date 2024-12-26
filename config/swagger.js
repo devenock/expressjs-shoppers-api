@@ -18,15 +18,11 @@ const options = {
     },
     servers: [
       {
-        url: "https://api.shopperexpress.com/v1",
+        url: "https://expressjs-shoppers-api.onrender.com/api/v1",
         description: "Production server",
       },
       {
-        url: "https://staging.api.shopperexpress.com/v1",
-        description: "Staging server",
-      },
-      {
-        url: "http://localhost:5000/v1",
+        url: "http://localhost:5000/api/v1",
         description: "Local development server",
       },
     ],
