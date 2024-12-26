@@ -2,10 +2,10 @@ const options = {
   definition: {
     openapi: "3.1.0",
     info: {
-      title: "Shopper Express API with Swagger",
-      version: "0.1.0",
+      title: "Shopper Express Public API",
+      version: "1.0.0",
       description:
-        "An Express.js version of the Shopper API documented with Swagger",
+        "The Shopper Express API allows developers to build applications that interact with the Shopper Express e-commerce platform. It supports operations such as managing products, categories, users, and orders.",
       license: {
         name: "MIT",
         url: "https://spdx.org/licenses/MIT.html",
@@ -18,11 +18,20 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:5000",
+        url: "https://api.shopperexpress.com/v1",
+        description: "Production server",
+      },
+      {
+        url: "https://staging.api.shopperexpress.com/v1",
+        description: "Staging server",
+      },
+      {
+        url: "http://localhost:5000/v1",
+        description: "Local development server",
       },
     ],
   },
-  apis: ["./routes/*.js", "./docs/*.js"],
+  apis: ["./docs/**/*.js"],
 };
 
 module.exports = options;
