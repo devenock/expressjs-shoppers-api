@@ -1,115 +1,287 @@
-## Shoppers Backend API
 
-1. [x] Authentication and Authorization
- 
+# Shopper Express E-Commerce API
 
-1. User Authentication: Secure login and registration using JWT or OAuth.
-2. Role-based Access Control (RBAC): Different permissions for Admins, Customers, and Vendors.
-3. Multi-Factor Authentication (MFA): For enhanced security.
+Welcome to the **Shopper Express API** repository! This API serves as the backend for an e-commerce platform that facilitates the management of products, categories, users, orders, and more. The API is designed to be scalable, secure, and flexible to meet the needs of various e-commerce applications.
 
+---
 
-2. [x] Product Management
+## Table of Contents
 
+- [About](#about)
+- [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [Environment Variables](#environment-variables)
+- [API Documentation](#api-documentation)
+    - [Authentication](#authentication)
+    - [Products](#products)
+    - [Categories](#categories)
+    - [Orders](#orders)
+    - [Users](#users)
+- [Testing](#testing)
+- [License](#license)
+- [Contact](#contact)
 
-1.    CRUD for Products: Add, update, delete, and retrieve products with detailed attributes (name, description, price, category, brand, SKU, etc.).
-2.    Inventory Management: Track stock levels, manage low-stock alerts, and prevent overselling.
-3.    Category and Subcategory Management: Organize products into categories for better browsing.
+---
 
+## About
 
-3. [x] Order Management
+The **Shopper Express API** is a RESTful API built with Express.js to power an e-commerce platform. It provides functionality for managing key e-commerce entities like products, categories, users, and orders. The API is designed to allow seamless integration with mobile apps, web frontends, or other external services.
 
+---
 
-1.    Order Placement: API to create and confirm orders.
-2.    Order Tracking: Update order status (Pending, Processing, Shipped, Delivered, Cancelled).
-3.    Returns and Refunds: Manage product returns and initiate refunds.
+## Getting Started
 
+### Prerequisites
 
-4. [x] User Management
-   User Profiles: Allow users to update their personal details, preferences, and addresses.
-   Address Management: Save multiple delivery addresses for each user.
-   Wishlist and Favorites: Save products for future purchase.
-   Review and Ratings: Allow customers to leave feedback for products.
-5. [x] Payment Gateway Integration
-   Multiple Payment Methods: Support for credit/debit cards, wallets, UPI, and bank transfers.
-   Secure Payments: Use libraries like Stripe, PayPal SDK, or Razorpay.
-   Fraud Detection: Verify transactions to detect suspicious activities.
-6. [x] Shopping Cart and Checkout
-   Persistent Cart: Save cart data in the database to persist across sessions.
-   Promotions and Discounts: Apply discount codes, coupons, or seasonal sales.
-   Tax Calculation: Calculate taxes based on user location or product type.
-   Shipping Options: Provide multiple shipping methods with real-time cost estimates.
-7. [x] Search and Filtering
-   Full-Text Search: Implement Elasticsearch or MongoDB Atlas Search for faster and advanced querying.
-   Sorting and Filtering: By price, category, brand, rating, and availability.
-   Autocomplete Suggestions: Suggest products as users type.
-8. [x] Notifications
-   Email Notifications: Order confirmations, delivery updates, and promotions.
-   SMS Notifications: Important updates like OTPs and delivery statuses.
-   Push Notifications: For web or mobile apps.
-9. [x] Advanced Analytics and Reporting
-   Dashboard for Admins: Insights into sales, orders, and user activity.
-   Product Performance: Top-selling and low-performing products.
-   Customer Analytics: User behavior, retention, and spending patterns.
-10. [x] Security
-    Data Encryption: Use HTTPS and encrypt sensitive data like passwords (bcrypt).
-    Rate Limiting: Prevent DDoS attacks using tools like express-rate-limit.
-    Input Validation: Sanitize inputs to prevent SQL injection and XSS attacks.
-    Content Security Policy (CSP): Mitigate script-based attacks.
-11. [x] Scalability and Performance
-    Load Balancing: Distribute traffic across multiple servers.
-    Caching: Use Redis for frequently accessed data (e.g., product listings).
-    Database Optimization: Use indexes, optimize queries, and consider database sharding for scalability.
-    Microservices Architecture: Modularize components for better maintainability and scaling.
-12. [x] APIs and Webhooks
-    RESTful APIs: Follow REST conventions or use GraphQL for flexible querying.
-    Webhooks: Enable integrations for payment gateways, shipping services, and third-party tools.
-13. [x] Admin Panel
-    User Management: View and manage customer accounts.
-    Product and Inventory Management: Bulk product uploads and stock management.
-    Order Management: Update and manage orders, refunds, and cancellations.
-14. [x] Multi-Language and Multi-Currency Support
-    Localization: Serve content in multiple languages.
-    Currency Conversion: Show prices in the user's preferred currency.
-15. [x] Customer Support
-    Live Chat: Integrate a real-time chat service.
-    Helpdesk System: Ticketing system for queries and complaints.
-    FAQ and Knowledge Base: Address common issues and questions.
-16. [x] Logging and Monitoring
-    Request and Error Logging: Use tools like Winston or Bunyan for logging.
-    Performance Monitoring: Integrate APM tools like New Relic or Datadog.
-    Error Tracking: Use services like Sentry for real-time bug tracking.
-17. [x] Backup and Recovery
-    Database Backups: Regular automated backups of all data.
-    Disaster Recovery Plan: Ensure minimal downtime in case of failures.
-18. [x] Compliance
-    GDPR and CCPA: Protect user data and provide options to delete or download it.
-    PCI DSS Compliance: Secure payment data handling.
-19. [x] Third-Party Integrations
-    Shipping APIs: Automate shipping calculations and tracking.
-    CRM Integration: Sync user data with tools like Salesforce.
-    Marketing Tools: Integrate email marketing tools like Mailchimp.
+Before you can run this project, ensure you have the following installed:
 
+- [Node.js](https://nodejs.org/) (version 14 or higher)
+- [npm](https://www.npmjs.com/)
+- A database such as [MongoDB](https://www.mongodb.com/) or [MySQL](https://www.mysql.com/) (depending on your configuration)
 
-### Implementing Authentication
-We are going to use JWT for authentication and authorization functionalities. We required a few dependencies to 
-successfully implement this.
+### Installation
 
-`jsonwebtoken`: For generating access tokens
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Trend20/expressjs-shoppers-api.git
+   cd expressjs-shoppers-api
+   ```
 
-`bcryptjs`: For password hashing(encryption)
+2. Install the dependencies:
+   ```bash
+   npm install
+   ```
 
-`body-parser`:For passing the request body to JSON 
+3. Create a `.env` file in the root directory and set up your environment variables (see below).
 
-## Research Areas
+4. Start the server in development mode:
+   ```bash
+   npm run dev
+   ```
 
-How to integrate Relationships in MongoDB(refs).
+   The server will start running at `http://localhost:5000`.
 
-## Checks
-1. [ ] Authentication
-2. [ ] Authorization
-3. [ ] CRUD
-4. [ ] Payments
-5. [ ] Analytics
-6. [ ] Documentation
-7. [ ] Database Design
-8. [ ] Deployment
+### Environment Variables
+
+Make sure to set the following environment variables in your `.env` file:
+
+```env
+PORT=5000
+DB_URI=mongodb://localhost:27017/shopper_express
+JWT_SECRET=your_jwt_secret_key
+SMTP_HOST=smtp.mailtrap.io
+SMTP_PORT=2525
+SMTP_USER=your_smtp_user
+SMTP_PASS=your_smtp_password
+```
+
+- **PORT**: The port on which the server will run (default is 5000).
+- **DB_URI**: MongoDB connection URI (or any other database you prefer).
+- **JWT_SECRET**: Secret key for JWT authentication.
+- **SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS**: SMTP server settings for sending emails (e.g., for password resets).
+
+---
+
+## API Documentation
+
+The **Shopper Express API** provides several endpoints for managing users, products, categories, and orders.
+
+### Authentication
+
+#### Register a new user
+
+- **Endpoint**: `POST /auth/register`
+- **Description**: Register a new user by providing their username, email, and password.
+- **Request Body**:
+  ```json
+  {
+    "username": "john_doe",
+    "email": "john@example.com",
+    "password": "password123"
+  }
+  ```
+- **Responses**:
+    - `201` - User registered successfully.
+    - `400` - User with this email already exists.
+    - `500` - Internal server error.
+
+#### Log in a user
+
+- **Endpoint**: `POST /auth/login`
+- **Description**: Log in an existing user by email and password, returning a JWT token.
+- **Request Body**:
+  ```json
+  {
+    "email": "john@example.com",
+    "password": "password123"
+  }
+  ```
+- **Responses**:
+    - `200` - Successful login, returns JWT token.
+    - `401` - Unauthorized (invalid credentials).
+    - `500` - Internal server error.
+
+#### Request password reset
+
+- **Endpoint**: `POST /auth/forgot-password`
+- **Description**: Request a password reset for the provided email.
+- **Request Body**:
+  ```json
+  {
+    "email": "john@example.com"
+  }
+  ```
+- **Responses**:
+    - `200` - Password reset email sent successfully.
+    - `401` - User with the provided email does not exist.
+    - `500` - Internal server error.
+
+#### Reset password
+
+- **Endpoint**: `POST /auth/reset-password`
+- **Description**: Reset the password using the user ID, token, and new password.
+- **Request Body**:
+  ```json
+  {
+    "userId": "user123",
+    "token": "reset_token",
+    "password": "newpassword123"
+  }
+  ```
+- **Responses**:
+    - `200` - Password reset successfully.
+    - `401` - Invalid or expired password reset token.
+    - `500` - Internal server error.
+
+### Products
+
+#### Add a new product
+
+- **Endpoint**: `POST /products`
+- **Description**: Add a new product to the store.
+- **Request Body**:
+  ```json
+  {
+    "name": "Product A",
+    "price": 100.00,
+    "description": "This is a great product.",
+    "categoryId": "category123",
+    "stock": 50
+  }
+  ```
+- **Responses**:
+    - `201` - Product added successfully.
+    - `400` - Invalid product data.
+    - `500` - Internal server error.
+
+#### Get all products
+
+- **Endpoint**: `GET /products`
+- **Description**: Fetch a list of all products.
+- **Responses**:
+    - `200` - Returns a list of products.
+    - `500` - Internal server error.
+
+### Categories
+
+#### Add a new category
+
+- **Endpoint**: `POST /categories`
+- **Description**: Add a new category for products.
+- **Request Body**:
+  ```json
+  {
+    "name": "Electronics"
+  }
+  ```
+- **Responses**:
+    - `201` - Category added successfully.
+    - `400` - Invalid category data.
+    - `500` - Internal server error.
+
+#### Get all categories
+
+- **Endpoint**: `GET /categories`
+- **Description**: Fetch a list of all categories.
+- **Responses**:
+    - `200` - Returns a list of categories.
+    - `500` - Internal server error.
+
+### Orders
+
+#### Place an order
+
+- **Endpoint**: `POST /orders`
+- **Description**: Place a new order for a user.
+- **Request Body**:
+  ```json
+  {
+    "userId": "user123",
+    "products": [
+      {
+        "productId": "product123",
+        "quantity": 2
+      }
+    ],
+    "totalPrice": 200.00
+  }
+  ```
+- **Responses**:
+    - `201` - Order placed successfully.
+    - `400` - Invalid order data.
+    - `500` - Internal server error.
+
+#### Get all orders for a user
+
+- **Endpoint**: `GET /orders/{userId}`
+- **Description**: Fetch all orders placed by a user.
+- **Responses**:
+    - `200` - Returns a list of orders for the specified user.
+    - `500` - Internal server error.
+
+### Users
+
+#### Get user profile
+
+- **Endpoint**: `GET /users/{userId}`
+- **Description**: Fetch the profile information of a user.
+- **Responses**:
+    - `200` - Returns user profile.
+    - `500` - Internal server error.
+
+---
+
+## Testing
+
+To run the tests for the API:
+
+1. Install testing dependencies:
+   ```bash
+   npm install --save-dev jest supertest
+   ```
+
+2. Run tests:
+   ```bash
+   npm test
+   ```
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](https://spdx.org/licenses/MIT.html) file for details.
+
+---
+
+## Contact
+
+For any inquiries, please contact:
+
+- **Enock Omondi**
+- Email: [enockomondi305@gmail.com](mailto:enockomondi305@gmail.com)
+- GitHub: [Trend20](https://github.com/Trend20)
+
+---
+
+This README provides an overview of how to set up, run, and test the **Shopper Express API**. Feel free to contribute, report issues, or ask questions by opening an issue or submitting a pull request.
