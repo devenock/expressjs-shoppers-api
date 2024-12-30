@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-const { Schema, model } = mongoose;
+const { Schema, model } = require("mongoose");
 
 const productSchema = new Schema(
   {
@@ -29,6 +28,12 @@ const productSchema = new Schema(
     images: [
       {
         type: String,
+      },
+    ],
+    variants: [
+      {
+        name: { type: String },
+        options: [{ type: String }],
       },
     ],
   },

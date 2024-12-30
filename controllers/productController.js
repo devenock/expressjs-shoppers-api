@@ -127,3 +127,79 @@ exports.deleteProduct = async (req, res) => {
     res.status(500).json({ message: error });
   }
 };
+
+// search products
+exports.searchProducts = async (req, res) => {
+  try {
+    const {
+      name,
+      category,
+      minPrice,
+      maxPrice,
+      attributes,
+      sortBy,
+      order,
+      page,
+      limit,
+    } = req.query;
+
+    // Default values for pagination
+    const pageNumber = parseInt(page, 10) || 1;
+    const pageSize = parseInt(limit, 10) || 10;
+
+    // Build the search query
+    const query = {};
+
+    // Search by name (case-insensitive partial match)
+    if (name) {
+      query.name = { $regex: name, $options: "i" };
+    }
+
+    // Filter by category
+    if (category) {
+      query.category = category;
+    }
+
+    // Price range filter
+    if (minPrice || maxPrice) {
+      query.price = {};
+      if (minPrice) query.price.$gte = parseFloat(minPrice);
+      if (maxPrice) query.price.$lte = parseFloat(maxPrice);
+    }
+
+    // Filter by custom attributes
+    if (attributes) {
+      const attributeFilters = JSON.parse(attributes); // Expecting attributes as a JSON string
+      for (const key in attributeFilters) {
+        query[`attributes.${key}`] = attributeFilters[key];
+      }
+    }
+
+    // Sort options (default to 'createdAt' descending)
+    const sortField = sortBy || "createdAt";
+    const sortOrder = order === "asc" ? 1 : -1;
+
+    // Pagination
+    const skip = (pageNumber - 1) * pageSize;
+
+    // Fetch matching products
+    const products = await Product.find(query)
+      .sort({ [sortField]: sortOrder })
+      .skip(skip)
+      .limit(pageSize);
+
+    // Total count for pagination
+    const total = await Product.countDocuments(query);
+
+    res.status(200).json({
+      products,
+      pagination: {
+        total,
+        page: pageNumber,
+        pages: Math.ceil(total / pageSize),
+      },
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
