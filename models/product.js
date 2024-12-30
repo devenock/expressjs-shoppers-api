@@ -31,6 +31,12 @@ const productSchema = new Schema(
         type: String,
       },
     ],
+    variants: [
+      {
+        name: { type: String },
+        options: [{ type: String }],
+      },
+    ],
   },
   { timestamps: true },
 );
